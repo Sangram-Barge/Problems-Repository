@@ -11,8 +11,7 @@ func FindAll(db *sql.DB) ([]persistance.Problem, error) {
 	if err != nil {
 		return nil, err
 	}
-	result, err := parseProblems(problems)
-	return result, err
+	return parseProblems(problems)
 }
 
 func Insert(problem persistance.Problem, db *sql.DB) (persistance.Problem, error) {

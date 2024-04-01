@@ -10,7 +10,6 @@ import (
 	"github.com/Sangram-Barge/Problems-Repository/persistance"
 )
 
-
 func GetAllProblems(w http.ResponseWriter, r *http.Request) {
 	log.Default().Println("find all problems")
 	db, err := dbconfig.Init()
@@ -29,6 +28,8 @@ func GetAllProblems(w http.ResponseWriter, r *http.Request) {
 		errorReturn(w, err, 500)
 		return
 	}
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	w.Header().Set("content-type", "application/json")
 	w.Write(output)
 }
@@ -47,6 +48,7 @@ func InsertProblem(w http.ResponseWriter, r *http.Request) {
 			errorReturn(w, err, 500)
 			return
 		}
+
 		var problem persistance.Problem
 		if err = json.Unmarshal(b, &problem); err != nil {
 			errorReturn(w, err, 400)
@@ -63,6 +65,9 @@ func InsertProblem(w http.ResponseWriter, r *http.Request) {
 			errorReturn(w, err, 500)
 			return
 		}
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+		w.Header().Set("content-type", "application/json")
 		w.Header().Set("content-type", "application/json")
 		w.Write(output)
 	}

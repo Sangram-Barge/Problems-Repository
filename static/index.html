@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problems Repository</title>
+</head>
+<style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #DDD;
+}
+
+th { 
+    padding: 5px; 
+    background-color: #e4d6eeee; 
+    position: -webkit-sticky; 
+    position: sticky; 
+    top: 0; 
+} 
+
+tr:hover {background-color: #D6EEEE;}
+</style>
+
+<body>
+    <h1>Solved DSA Problems</h1>
+    <p>Add new solved problem</p>
+    <form>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name">
+        <label for="difficulty">Difficulty:</label>
+        <input type="radio" id="easy" name="difficulty" value="easy">
+        <label style="font-weight: lighter;" for="easy">Easy</label>
+        <input type="radio" id="medium" name="difficulty" value="medium">
+        <label style="font-weight: lighter;" for="medium">Medium</label>
+        <input type="radio" id="hard" name="difficulty" value="hard">
+        <label style="font-weight: lighter;" for="hard">Hard</label>
+        <label for="link">Link:</label>
+        <input type="text" id="link" name="link"></br></br>
+        <button type="submit">Submit</button>
+    </form>
+    </br>
+    <p>Here is the list of solved problems</p>
+    </br>
+    <div style="height: 750px; overflow: auto;">
+    <table border="2" >
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Problem</th>
+                <th>Platform</th>
+                <th>Description</th>
+                <th>Intiution</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody id="problems">
+
+        </tbody>
+    </table>
+    </div>
+    <script>
+        fetch(`http://localhost:9090/problems`)
+        .then(response => response.json())
+        .then(data => {
+            var list = document.getElementById("problems")
+            data.forEach((problem) => {
+                var tdId = document.createElement("td")
+                tdId.innerText = problem.id
+                var tdProblem = document.createElement("td")
+                tdProblem.innerText = problem.problem
+                var tdPlatform = document.createElement("td")
+                tdPlatform.innerText = problem.platform
+                var tdDescription = document.createElement("td")
+                tdDescription.innerText = problem.desc
+                var tdIntiution = document.createElement("td")
+                tdIntiution.innerText = problem.intiution
+                var tdLink = document.createElement("td")
+                tdLink.innerText = problem.link
+                var tr = document.createElement("tr")
+                tr.appendChild(tdId)
+                tr.appendChild(tdProblem)
+                tr.appendChild(tdPlatform)
+                tr.appendChild(tdDescription)
+                tr.appendChild(tdIntiution)
+                tr.appendChild(tdLink)
+
+                document.getElementById("problems")
+                .appendChild(tr)
+            });
+        })
+    </script>
+</body>
+
+</html>
