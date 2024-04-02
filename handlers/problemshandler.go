@@ -35,8 +35,8 @@ func GetAllProblems(w http.ResponseWriter, r *http.Request) {
 }
 
 func InsertProblem(w http.ResponseWriter, r *http.Request) {
-	log.Default().Println("insert problem")
 	if r.Method == "POST" {
+		log.Default().Println("insert problem")
 		db, err := dbconfig.Init()
 		if err != nil {
 			errorReturn(w, err, 500)
@@ -66,9 +66,8 @@ func InsertProblem(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-		w.Header().Set("content-type", "application/json")
-		w.Header().Set("content-type", "application/json")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type,Accept")
+		w.Header().Set("Content-Type", "application/json")
 		w.Write(output)
 	}
 }

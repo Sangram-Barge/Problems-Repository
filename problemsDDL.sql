@@ -8,6 +8,6 @@ create table if not exists problems (
 );
 
 insert into problems (problem, platform, description, intiution, link) 
-values ("sliding window", "scaler", "slide the fing window", "learn", "leetcode.com"),
-("carry forward", "leetcode", "slide the fing window with carry forward", "learn", "leetcode.com"),
-("TOH", "scaler", "tower of hanoi", "learn", "scaler.com")
+values ("sliding window", "scaler", "slide the fing window", "learn", "https://leetcode.com"),
+("carry forward", "leetcode", "slide the fing window with carry forward", "learn", "https://leetcode.com"),
+("TOH", "scaler", "tower of hanoi", "learn", "https://scaler.com")
