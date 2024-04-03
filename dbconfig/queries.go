@@ -28,6 +28,15 @@ func Insert(problem persistance.Problem, db *sql.DB) (persistance.Problem, error
 	return problem, nil
 }
 
+func Delete(id string, db *sql.DB) (error) {
+	prep, err := db.Prepare("delete from problems where id = ?")
+	if err != nil {
+		return err
+	}
+	prep.Exec(id)
+	return nil
+}
+
 func parseProblems(problems *sql.Rows) ([]persistance.Problem, error) {
 	result := make([]persistance.Problem, 0)
 	for problems.Next() {

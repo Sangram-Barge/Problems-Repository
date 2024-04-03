@@ -20,7 +20,7 @@
 
     .table th {
         text-align: left;
-        background-color: #D6EEEE;
+        background-color: #8f9898;
         position: sticky;
         top: 0;
     }
@@ -32,7 +32,7 @@
     }
 
     tr:hover {
-        background-color: #D6EEEE;
+        background-color: #e2ecec5b;
     }
 </style>
 
@@ -55,6 +55,11 @@
         <br />
         <br />
         <input type="button" value="submit" onclick="insertProblem()"/>
+        <br />
+        <br />
+        <label>DELETE PROBLEM : </label>
+        <input type="number" name="DELETE ID" id="dId" autocomplete="off" size="10px" >
+        <input type="button" value="DELETE" onclick="deleteProblem()"/>
     </form>
     </br>
     <p>Here is the list of solved problems</p>
@@ -127,7 +132,14 @@
                     "Content-Type": "application/json",
                 }
             })
-            console.log(problem)
+            window.location.reload()
+        }
+        async function deleteProblem() {
+            let id = document.getElementById("dId").value
+            await fetch(`http://localhost:9090/problem?id=${id}`,
+            {
+                method: "DELETE",
+            })
             window.location.reload()
         }
         populateData()

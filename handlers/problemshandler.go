@@ -72,11 +72,31 @@ func InsertProblem(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func DeleteProblem(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS, PUT, POST, DELETE")
+	if r.Method == "DELETE" {
+		id := r.URL.Query().Get("id")
+		if id == "" {
+			http.Error(w, "no id passed", 400)
+			return
+		}
+		log.Default().Println("delete for id ", id)
+		db, err := dbconfig.Init()
+		if err != nil {
+			http.Error(w, err.Error(), 500)
+			return
+		}
+		dbconfig.Delete(id, db);
+	}
+}
+
 func errorReturn(w http.ResponseWriter, err error, code int) {
 	http.Error(w, err.Error(), code)
 }
 
 func Init() {
+	http.HandleFunc("/problem", DeleteProblem)
 	http.HandleFunc("/problems", GetAllProblems)
 	http.HandleFunc("/problems/add", InsertProblem)
 }
