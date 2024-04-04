@@ -1,10 +1,10 @@
 create table if not exists problems (
   id int primary key AUTO_INCREMENT,
-  problem nvarchar(1000),
-  platform nvarchar(20),
-  description nvarchar(500),
+  problem text,
+  platform text,
+  description text,
   intiution text,
-  link nvarchar(100)
+  link text
 );
 
 insert into problems (problem, platform, description, intiution, link) 
