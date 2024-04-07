@@ -2,7 +2,9 @@ package dbconfig
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
+
 	"github.com/Sangram-Barge/Problems-Repository/persistance"
 )
 
@@ -26,6 +28,20 @@ func Insert(problem persistance.Problem, db *sql.DB) (persistance.Problem, error
 		problem.Intiution, problem.Link)
 	log.Printf("inserting %v\n", problem)
 	return problem, nil
+}
+
+func Search(db *sql.DB, keyword string) ([]persistance.Problem, error) {
+	statement := fmt.Sprintf(`
+	select * from problems where 
+	(problem like "%%%v%%") or
+	(description like "%%%v%%") or
+	(intiution like "%%%v%%")
+	`, keyword, keyword, keyword)
+	problems, err := db.Query(statement)
+	if err != nil {
+		return nil, err
+	}
+	return parseProblems(problems)	
 }
 
 func Delete(id string, db *sql.DB) (error) {

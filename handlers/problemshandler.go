@@ -73,6 +73,7 @@ func InsertProblem(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteProblem(w http.ResponseWriter, r *http.Request) {
+	log.Default().Println("delete problem")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS, PUT, POST, DELETE")
 	if r.Method == "DELETE" {
@@ -87,8 +88,34 @@ func DeleteProblem(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), 500)
 			return
 		}
-		dbconfig.Delete(id, db);
+		defer db.Close()
+		dbconfig.Delete(id, db)
 	}
+}
+
+func FindProblem(w http.ResponseWriter, r *http.Request) {
+	log.Default().Println("find problem")
+	keyword := r.URL.Query().Get("keyword")
+	db, err := dbconfig.Init()
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	defer db.Close()
+	problems, err := dbconfig.Search(db, keyword)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	respBody, err := json.Marshal(problems)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	w.Header().Add("content-type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type,Accept")
+	w.Write(respBody)
 }
 
 func errorReturn(w http.ResponseWriter, err error, code int) {
@@ -98,5 +125,6 @@ func errorReturn(w http.ResponseWriter, err error, code int) {
 func Init() {
 	http.HandleFunc("/problem", DeleteProblem)
 	http.HandleFunc("/problems", GetAllProblems)
+	http.HandleFunc("/problems/find", FindProblem)
 	http.HandleFunc("/problems/add", InsertProblem)
 }
