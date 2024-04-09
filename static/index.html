@@ -37,7 +37,7 @@
 </style>
 
 <body>
-    <h1>Solved DSA Problems</h1>
+    <h1 onclick="populateProblems()">Solved DSA Problems</h1>
     <p>Add new solved problem</p>
     <form>
         <label>Problem : </label>
@@ -54,12 +54,17 @@
         <input type="text" name="Link" size="30px" autocomplete="off" id="link">
         <br />
         <br />
-        <input type="button" value="submit" onclick="insertProblem()"/>
+        <input type="button" value="submit" onclick="insertProblem()" />
         <br />
         <br />
-        <label>DELETE PROBLEM : </label>
-        <input type="number" name="DELETE ID" id="dId" autocomplete="off" size="10px" >
-        <input type="button" value="DELETE" onclick="deleteProblem()"/>
+        <label>Find Problem : </label>
+        <input type="text" name="find keyword" id="fKey" autocomplete="off" size="25px">
+        <input type="button" value="Find" onclick="populateKeywordProblems()" />
+        <br />
+        <br />
+        <label>Delete Problem : </label>
+        <input type="number" name="DELETE ID" id="dId" autocomplete="off" size="10px">
+        <input type="button" value="Delete" onclick="deleteProblem()" />
     </form>
     </br>
     <p>Here is the list of solved problems</p>
@@ -81,70 +86,7 @@
             </tbody>
         </table>
     </div>
-    <script>
-        function populateData() {
-            fetch(`http://localhost:9090/problems`)
-                .then(response => response.json())
-                .then(data => {
-                    var list = document.getElementById("problems")
-                    data.forEach((problem) => {
-                        var tdId = document.createElement("td")
-                        tdId.innerText = problem.id
-                        var tdProblem = document.createElement("td")
-                        tdProblem.innerText = problem.problem
-                        var tdPlatform = document.createElement("td")
-                        tdPlatform.innerText = problem.platform
-                        var tdDescription = document.createElement("td")
-                        tdDescription.innerText = problem.desc
-                        var tdIntiution = document.createElement("td")
-                        tdIntiution.innerText = problem.intiution
-
-                        var tdLink = document.createElement("td")
-                        tdLink.innerHTML = `<a href=${problem.link} target="_blank">Link</a>`
-
-                        var tr = document.createElement("tr")
-                        tr.appendChild(tdId)
-                        tr.appendChild(tdProblem)
-                        tr.appendChild(tdPlatform)
-                        tr.appendChild(tdDescription)
-                        tr.appendChild(tdIntiution)
-                        tr.appendChild(tdLink)
-
-                        document.getElementById("problems")
-                            .appendChild(tr)
-                    });
-                })
-        }
-        async function insertProblem() {
-            let problem = {
-                "problem": document.getElementById("prob").value,
-                "platform": document.getElementById("plat").value,
-                "desc": document.getElementById("desc").value,
-                "intiution": document.getElementById("intiu").value,
-                "link": document.getElementById("link").value,
-            }
-            await fetch("http://localhost:9090/problems/add",
-            {
-                method: "POST",
-                mode: "no-cors",
-                body: JSON.stringify(problem),
-                headers: {
-                    "Content-Type": "application/json",
-                }
-            })
-            window.location.reload()
-        }
-        async function deleteProblem() {
-            let id = document.getElementById("dId").value
-            await fetch(`http://localhost:9090/problem?id=${id}`,
-            {
-                method: "DELETE",
-            })
-            window.location.reload()
-        }
-        populateData()
-
-    </script>
+    <script src="./script.js"></script>
 </body>
 
 </html>
