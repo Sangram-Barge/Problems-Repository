@@ -1,0 +1,27 @@
+.scrollable-table {
+  overflow-y: auto;
+  height: 600px;
+}
+
+.table {
+  border-collapse: collapse;
+  font-size: 20px;
+  width: 100%;
+}
+
+.table th {
+text-align: left;
+background-color: #8f9898;
+position: sticky;
+top: 0;
+}
+
+.table th,
+.table td {
+  padding: 6px 8px;
+  font-weight: normal;
+}
+
+tr:hover {
+  background-color: #e2ecec5b;
+}
